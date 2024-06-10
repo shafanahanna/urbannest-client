@@ -23,12 +23,12 @@ function SignIn() {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const handleSignInSuccess = (token) => {
+  const handleSignInSuccess = (user, token) => {
     localStorage.setItem("usertoken", token);
-    const userData = JSON.parse(localStorage.getItem("currentUser")) || null;
-    dispatch(signinSuccess(userData));
+    localStorage.setItem("currentUser", JSON.stringify(user));
+    dispatch(signinSuccess(user));
     navigate("/");
-    toast("Login successful");
+    toast.success("Login successful");
   };
 
   const handleSubmit = async (e) => {
@@ -41,21 +41,15 @@ function SignIn() {
         formData
       );
 
-      if (response.data.token && response.data._id) {
-        localStorage.setItem("usertoken", response.data.token);
-        localStorage.setItem("_id", response.data._id);
-
-        handleSignInSuccess(response.data.token, response.data._id);
-        console.log(handleSignInSuccess, "______");
+      if (response.data.token && response.data.user) {
+        handleSignInSuccess(response.data.user, response.data.token);
       } else {
-        console.error("Token not found in response:", response);
-        dispatch(signinFailure("Token not found in response"));
-        toast.error("Token not found in response");
+        throw new Error("Token or user data not found in response");
       }
     } catch (error) {
       console.error("Error during sign-in:", error);
-      dispatch(signinFailure(error.message || "An error occurred"));
-      toast.error(error.message || "An error occurred");
+      dispatch(signinFailure(error.message));
+      toast.error(error.message);
     }
   };
 
@@ -88,6 +82,7 @@ function SignIn() {
         >
           {loading ? "Loading" : "Sign In"}
         </button>
+        <p className="text-center">OR</p>
         <OAuth />
       </form>
       <div className="flex gap-2 mt-5">

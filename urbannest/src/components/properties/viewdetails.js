@@ -21,7 +21,7 @@ function ViewDetails() {
           navigate("/signin");
           return;
         }
-        const response = await interceptor.get(`/properties/${id}`);
+        const response = await interceptor.get(`/api/user/properties/${id}`);
         setProperties(response.data.data);
         setLoading(false);
       } catch (error) {

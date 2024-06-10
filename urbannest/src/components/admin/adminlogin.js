@@ -18,7 +18,7 @@ function Adminlogin() {
   const handleSubmit = async (values, { setSubmitting }) => {
     setLoading(true);
     try {
-      const response = await interceptor.post("/login", values);
+      const response = await interceptor.post("/api/admin/login", values);
       const { data } = response.data;
       console.log(data, "login");
       localStorage.setItem("admintoken", data);

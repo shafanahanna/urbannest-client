@@ -14,7 +14,7 @@ function Luxury() {
         
 
         const response = await interceptor.get(
-          "/properties",{
+          "/api/user/properties",{
            params: { category: "Luxury" } ,
             
         }

@@ -10,13 +10,11 @@ import { BeatLoader } from "react-spinners";
 
 const AddProperty = () => {
   const [loading, setLoading] = useState(false);
-  const [Category,setCategory]=useState([])
-
+  const [Category, setCategory] = useState([]);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Required"),
     category: Yup.string().required("Required"),
-    address: Yup.string().required("Required"),
     place: Yup.string().required("Required"),
     price: Yup.number().required("Required"),
     bedrooms: Yup.number().required("Required"),
@@ -29,22 +27,22 @@ const AddProperty = () => {
   useEffect(() => {
     const fetchcategory = async () => {
       try {
-        const response = await interceptor.get("/categories");
+        const response = await interceptor.get("/api/admin/categories");
         setCategory(response.data);
       } catch (err) {
         console.log(err);
       }
     };
     fetchcategory();
-},[]);
+  }, []);
 
   const handleSubmit = async (formData, { resetForm }) => {
+    console.log("Form submitted:", formData); // Check if handleSubmit is called
     setLoading(true);
     try {
       const formDataToSend = new FormData();
       formDataToSend.append("name", formData.name);
       formDataToSend.append("category", formData.category);
-      formDataToSend.append("address", formData.address);
       formDataToSend.append("place", formData.place);
       formDataToSend.append("price", formData.price);
       formDataToSend.append("bedrooms", formData.bedrooms);
@@ -55,11 +53,15 @@ const AddProperty = () => {
         formDataToSend.append("images", formData.images[i]);
       }
 
-      const response = await interceptor.post("/properties", formDataToSend, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await interceptor.post(
+        "/api/admin/properties",
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       if (response.status === 201) {
         toast.success(response.data.message);
@@ -90,15 +92,14 @@ const AddProperty = () => {
         </h2>
         <Formik
           initialValues={{
-            name: "",
-            category: "",
-           
-            place: "",
-            price: "",
-            bedrooms: "",
-            bathrooms: "",
-            size: "",
-            description: "",
+            name: undefined, 
+            category: undefined,
+            place: undefined,
+            price: undefined,
+            bedrooms: undefined,
+            bathrooms: undefined,
+            size: undefined,
+            description: undefined,
             images: [],
           }}
           validationSchema={validationSchema}
@@ -126,20 +127,17 @@ const AddProperty = () => {
                 className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-orange-300"
               >
                 <option value="">Select Category</option>
-                  {Category.map((item) => (
-              <option key={item._id} value={item.category}>
-                {item.category}
-
+                {Category.map((item) => (
+                  <option key={item._id} value={item.category}>
+                    {item.category}
                   </option>
-                  ))}
+                ))}
               </Field>
               <ErrorMessage
                 name="category"
                 component="div"
                 className="text-red-500"
               />
-
-              
 
               <Field
                 type="text"
@@ -252,7 +250,11 @@ const AddProperty = () => {
                 className="w-full bg-orange-500 text-white py-2 rounded-md hover:bg-orange-300 focus:outline-none focus:bg-orange-300"
                 disabled={loading}
               >
-                {loading ? <BeatLoader color="#fff" size={10} /> : "Add Property"}
+                {loading ? (
+                  <BeatLoader color="#fff" size={10} />
+                ) : (
+                  "Add Property"
+                )}
               </button>
             </Form>
           )}

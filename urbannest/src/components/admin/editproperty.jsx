@@ -33,7 +33,7 @@ function Adminedit() {
     onSubmit: async (values) => {
       try {
         setLoading(true);
-        const response = await interceptor.put(`/properties/${_id}`, values);
+        const response = await interceptor.put(`/api/admin/properties/${_id}`, values);
 
         toast.success("Updated successfully");
       } catch (error) {
@@ -48,7 +48,7 @@ function Adminedit() {
   useEffect(() => {
     const fetchcategory = async () => {
       try {
-        const response = await interceptor.get("/categories");
+        const response = await interceptor.get("/api/admin/categories");
         setCategory(response.data);
       } catch (err) {
         console.log(err);
@@ -60,7 +60,7 @@ function Adminedit() {
   useEffect(() => {
     const fetchProperty = async () => {
       try {
-        const response = await interceptor.get(`/properties/${_id}`);
+        const response = await interceptor.get(`/api/admin/properties/${_id}`);
         const propertyData = response.data.data;
         formik.setValues({
           name: propertyData.name || "",

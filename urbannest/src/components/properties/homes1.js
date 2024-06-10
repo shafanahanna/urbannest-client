@@ -14,7 +14,7 @@ function Homes() {
         
 
         const response = await interceptor.get(
-            "/properties",{
+            "/api/user/properties",{
              params: { category: "Homes" } ,
              
           }

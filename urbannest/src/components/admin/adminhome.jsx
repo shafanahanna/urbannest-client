@@ -16,14 +16,14 @@ const AdminHome = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userResponse = await interceptor.get("/users");
+        const userResponse = await interceptor.get("/api/admin/users");
         setUserCount(userResponse.data.datacount);
         setUsers(userResponse.data.data);
 
-        const orderResponse = await interceptor.get("/orders");
+        const orderResponse = await interceptor.get("/api/admin/orders");
         setOrderCount(orderResponse.data.datacount);
 
-        const propertyResponse = await interceptor.get("/properties");
+        const propertyResponse = await interceptor.get("/api/admin/properties");
         setPropertyCount(propertyResponse.data.datacount);
       } catch (error) {
         console.error("Error fetching data:", error);

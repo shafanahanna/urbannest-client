@@ -14,7 +14,7 @@ function Property() {
     const fetchProperties = async () => {
       try {
         setLoading(true);
-        const response = await interceptor.get("/properties");
+        const response = await interceptor.get("/api/user/properties");
         setProperties(response.data.data);
         setLoading(false);
       } catch (error) {

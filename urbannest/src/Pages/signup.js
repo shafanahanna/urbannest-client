@@ -19,14 +19,16 @@ function SignUp() {
 
   const validationSchema = Yup.object({
     username: Yup.string().required("Username is required"),
-    email: Yup.string().email("Invalid email format").required("Email is required"),
+    email: Yup.string()
+      .email("Invalid email format")
+      .required("Email is required"),
     password: Yup.string().required("Password is required"),
     phoneNumber: Yup.string()
       .matches(/^\d{10}$/, "Phone number must be  10 digits")
       .required("Phone number is required"),
   });
 
-  const handleSignUp = async (values, { setSubmitting, setErrors, }) => {
+  const handleSignUp = async (values, { setSubmitting, setErrors }) => {
     try {
       setLoading(true);
       const otpResponse = await axios.post(
@@ -36,7 +38,7 @@ function SignUp() {
       if (otpResponse.data.success) {
         toast.success("Registration successful");
         setLoading(false);
-        navigate("/otp-verification", { state: { formData: values } }); 
+        navigate("/otp-verification", { state: { formData: values } });
       } else {
         setErrors({ server: otpResponse.data.message });
         setLoading(false);
@@ -119,6 +121,7 @@ function SignUp() {
             >
               {loading ? "Loading..." : "Sign Up"}
             </button>
+            <p className="text-center">OR</p>
             <OAuth />
           </Form>
         )}

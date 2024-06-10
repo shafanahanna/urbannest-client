@@ -16,7 +16,7 @@ function Category() {
 
   const fetchCategories = async () => {
     try {
-      const response = await interceptor.get("/categories");
+      const response = await interceptor.get("/api/admin/categories");
       setCategories(response.data);
     } catch (error) {
       console.error(error);
@@ -31,7 +31,7 @@ function Category() {
     }
 
     try {
-      const response = await interceptor.post("/categories", {
+      const response = await interceptor.post("/api/admin/categories", {
         category: newCategory,
       });
       if (response.status === 201) {
@@ -47,7 +47,7 @@ function Category() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await interceptor.delete(`/categories/${id}`);
+      const response = await interceptor.delete(`/api/admin/categories/${id}`);
       if (response.status === 200) {
         toast.success("Category deleted successfully");
         fetchCategories();
@@ -60,7 +60,7 @@ function Category() {
 
   const handleUpdate = async (id) => {
     try {
-      const response = await interceptor.put(`/categories/${id}`, {
+      const response = await interceptor.put(`/api/admin/categories/${id}`, {
         category: editCategoryName,
       });
       if (response.status === 200) {

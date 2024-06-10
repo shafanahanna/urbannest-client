@@ -8,7 +8,7 @@ function Adminorder() {
   useEffect(() => {
     const fetchorders = async () => {
       try {
-        const response = await interceptor.get("/orders");
+        const response = await interceptor.get("/api/admin/orders");
         setOrder(response.data.data);
       } catch (err) {
         console.log(err);

@@ -26,7 +26,6 @@ import Search from "./components/search";
 import Payment from "./Pages/payment/payment";
 import Privateroute from "./components/privateroute";
 import Order from "./components/order/order";
-import Test from "./Pages/home/test";
 import Adminorder from "./components/admin/adminorder";
 import Categories from "./components/admin/categories";
 import Contact from "./components/contact/contact";
@@ -61,7 +60,6 @@ function App() {
         <Route path="/payment/:id" element={<Payment />} />
         <Route path="/search" element={<Search />} />
         <Route path="/order-details/:id" element={<Order />} />
-        <Route path="/test" element={<Test />} />
 
         {/* Admin routes */}
         <Route path="/admin/login" element={<Adminlogin />} />

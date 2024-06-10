@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
+import interceptor from "../../axios/userinterceptor";
 
 function Payment() {
   const location = useLocation();
@@ -27,8 +27,8 @@ function Payment() {
       return;
     }
     try {
-      const orderResponse = await axios.post(
-        "http://localhost:3000/api/user/order",
+      const orderResponse = await interceptor.post(
+        "/api/user/order",
         { userId: userId, PropertyId, amount: price, currency: "INR" },
         { headers }
       );
@@ -39,8 +39,8 @@ function Payment() {
       const currency = "INR";
       const receipt = `receipt_${Date.now()}`;
 
-      const response = await axios.post(
-        "http://localhost:3000/api/user/payment",
+      const response = await interceptor.post(
+        "/api/user/payment",
         {
           amount,
           currency,
@@ -55,7 +55,7 @@ function Payment() {
       } = response;
 
       const options = {
-        key: "rzp_test_WwYkWiwNx5Fcop",
+        key: process.env.REACT_APP_Razorpay,
         amount: paymentData.amount,
         currency: paymentData.currency,
         name: "UrbanNest",

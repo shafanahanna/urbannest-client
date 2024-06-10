@@ -11,7 +11,7 @@ function Flat() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await interceptor.get("/properties", {
+        const response = await interceptor.get("/api/user/properties", {
           params: { category: "Flat" },
         });
 

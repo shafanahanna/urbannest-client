@@ -1,11 +1,9 @@
-
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const interceptor = axios.create({
-  baseURL: "http://localhost:3000/api/admin",
+  baseURL: process.env.REACT_APP_BASE_URL,
 });
-
 interceptor.interceptors.request.use(
   (config) => {
     const admintoken = localStorage.getItem("admintoken");

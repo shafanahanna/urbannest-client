@@ -6,6 +6,7 @@ import { signinSuccess } from "../redux/user/userSlice.js";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { FcGoogle } from "react-icons/fc";
 
 function OAuth() {
   const dispatch = useDispatch();
@@ -53,9 +54,10 @@ function OAuth() {
     <button
       onClick={handlegoogle}
       type="button"
-      className="bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95"
+      className="flex items-center justify-center gap-2 bg-white text-black border border-black p-3 rounded-lg uppercase hover:opacity-95"
     >
-      Continue with Google
+      <FcGoogle className="text-2xl" />
+      <span>Continue with Google</span>
     </button>
   );
 }

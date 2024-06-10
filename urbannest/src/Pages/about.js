@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import aboutimg from "../components/assets/about-img.jpeg";
 import Aos from "aos";
 import "aos/dist/aos.css";
-import Footer from "../components/footer/footer";
 function About() {
   useEffect(() => {
     Aos.init({

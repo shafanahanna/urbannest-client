@@ -11,7 +11,7 @@ function SinglePage() {
   useEffect(() => {
     const fetchProperty = async () => {
       try {
-        const response = await interceptor.get(`/properties/${id}`);
+        const response = await interceptor.get(`/api/admin/properties/${id}`);
         setProperties(response.data.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -86,7 +86,6 @@ function SinglePage() {
           </div>
         )}
       </div>
-      <Footer />
     </div>
   );
 }

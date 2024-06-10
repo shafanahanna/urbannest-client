@@ -11,7 +11,7 @@ const UserList = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await interceptor.get("/users");
+        const response = await interceptor.get("/api/admin/users");
 
         setUsers(response.data.data);
       } catch (error) {
@@ -25,7 +25,7 @@ const UserList = () => {
     try {
       const action = isBlocked ? "unblock" : "block";
       const response = await interceptor.patch(
-        `/users/${_id}?action=${action}`,
+        `/api/admin/users/${_id}?action=${action}`,
         {}
       );
       setUsers((prevUsers) =>

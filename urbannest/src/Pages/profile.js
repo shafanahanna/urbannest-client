@@ -4,6 +4,9 @@ import {
   deleteaccntStart,
   deleteaccntSuccess,
   signout,
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFail,
 } from "../redux/user/userSlice";
 import { useRef, useState, useEffect } from "react";
 import { toast } from "react-toastify";
@@ -15,30 +18,38 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 import { useNavigate } from "react-router-dom";
-import {
-  updateUserStart,
-  updateUserSuccess,
-  updateUserFail,
-} from "../redux/user/userSlice";
 import interceptor from "../axios/userinterceptor";
+
 function Profile() {
   const fileRef = useRef("");
   const [file, setFile] = useState(undefined);
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
-
   const { currentUser, loading } = useSelector((state) => state.user);
 
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({
-    username: currentUser.username,
-    email: currentUser.email,
+    username: "",
+    email: "",
     password: "",
-    phoneNumber: currentUser.phoneNumber,
-    profile: currentUser.profile,
+    phoneNumber: "",
+    profile: "",
   });
+
+  useEffect(() => {
+    if (currentUser) {
+      setFormData({
+        username: currentUser.username || "",
+        email: currentUser.email || "",
+        password: "",
+        phoneNumber: currentUser.phoneNumber || "",
+        profile: currentUser.profile || "",
+      });
+    } else {
+      console.log("No current user");
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     if (file) {
@@ -78,19 +89,32 @@ function Profile() {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
+    if (!currentUser || !currentUser.id) {
+      toast.error("User ID is missing");
+      return;
+    }
+
     try {
       dispatch(updateUserStart());
-      const response = await interceptor.put(`/${currentUser._id}`, formData);
+      const response = await interceptor.put(
+        `/api/user/users/${currentUser.id}`,
+        formData
+      );
 
-      const data = await response.json();
-      if (data.success === false) {
+      const data = response.data;
+
+      if (!data.success) {
         dispatch(updateUserFail(data.message));
+        toast.error(data.message);
+        return;
       }
-      dispatch(updateUserSuccess());
+
+      dispatch(updateUserSuccess(data.user));
       toast.success("Profile updated successfully");
     } catch (error) {
       dispatch(updateUserFail(error.message));
       console.error("Error updating profile:", error);
+      toast.error("Error updating profile");
     }
   };
 
@@ -101,23 +125,35 @@ function Profile() {
     toast.error("Logout");
   };
 
-  const handledelete = async () => {
+  const handleDelete = async () => {
+    if (!currentUser || !currentUser.id) {
+      toast.error("User ID is missing");
+      return;
+    }
+
     try {
       dispatch(deleteaccntStart());
-      const response = await interceptor.delete(
-        `/${currentUser._id}`,
-        formData
-      );
-      const data = await response.json();
-      if (data.success === false) {
+      const response = await interceptor.delete(`/api/user/users/${currentUser.id}`);
+      const data = response.data;
+
+      if (!data.success) {
         dispatch(deleteaccntFail(data.message));
         return;
       }
-      dispatch(deleteaccntSuccess(data));
+
+      dispatch(deleteaccntSuccess());
+      toast.success("Account deleted successfully");
+      navigate("/");
     } catch (error) {
       dispatch(deleteaccntFail(error.message));
+      console.error("Error deleting account:", error);
+      toast.error("Error deleting account");
     }
   };
+
+  if (!currentUser) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="p-3 max-w-lg mx-auto">
@@ -189,7 +225,7 @@ function Profile() {
         </button>
       </form>
       <div className="flex justify-between mt-5">
-        <span onClick={handledelete} className="text-red-700 cursor-pointer">
+        <span onClick={handleDelete} className="text-red-700 cursor-pointer">
           Delete Account
         </span>
         <span className="text-red-700 cursor-pointer" onClick={handleSignout}>

@@ -16,7 +16,7 @@ function Viewproperty() {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await interceptor.get("/properties");
+        const response = await interceptor.get("/api/admin/properties");
         setProperties(response.data.data);
         setLoading(false);
       } catch (error) {
@@ -29,14 +29,14 @@ function Viewproperty() {
   }, []);
 
   const handleDelete = async (_id) => {
-    const confirmed = window.confirm("Are you sure you want to delete ?");
+    const confirmed = window.confirm("Are you sure  ?");
 
     if (!confirmed) {
       return;
     }
 
     try {
-      const response = await interceptor.delete(`/properties/${_id}`);
+      const response = await interceptor.delete(`/api/admin/properties/${_id}`);
 
       if (response.status === 200) {
         const updatedProperties = properties.filter((item) => item._id !== _id);
@@ -126,7 +126,11 @@ function Viewproperty() {
                     <div className="flex justify-between items-center">
                       <FaEdit
                         className="text-yellow-500 cursor-pointer"
-                        onClick={() => navigate(`/admin/edit/${item._id}`, { initialValues: item })}
+                        onClick={() =>
+                          navigate(`/admin/edit/${item._id}`, {
+                            initialValues: item,
+                          })
+                        }
                       />
                       <MdDelete
                         className="text-red-500 cursor-pointer"

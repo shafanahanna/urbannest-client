@@ -11,8 +11,8 @@ function OTPVerification() {
 
   const formData = location.state?.formData;
   const phoneNumber = formData?.phoneNumber;
-  console.log(formData,"****");
-  console.log(phoneNumber,"*****");
+  console.log(formData, "****");
+  console.log(phoneNumber, "*****");
 
   const handleOtpChange = (e) => {
     setOtp(e.target.value);
@@ -36,15 +36,19 @@ function OTPVerification() {
             formData,
             { headers: { "Content-Type": "application/json" } }
           );
+          console.log("res: ", response);
+          console.log("status:", response.data.status);
 
-          if (response.data.success) {
+          if (response.data.status === "success") {
             navigate("/signin");
           } else {
             setError(response.data.message);
           }
         } catch (error) {
           console.error("Error during registration:", error);
-          setError("An error occurred during registration. Please try again later.");
+          setError(
+            "An error occurred during registration. Please try again later."
+          );
         }
       } else {
         setError("Invalid OTP. Please try again.");
