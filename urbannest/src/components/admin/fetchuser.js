@@ -88,8 +88,9 @@ const UserList = () => {
                   <td className="px-6 py-4 whitespace-nowrap">
                     {user.phoneNumber}
                   </td>
+                  <div className="flex justify-center items-center">
                   {user.isBlocked ? (
-                    <div className="flex justify-center items-center">
+                    <div >
                       <TbLockOff
                         className="text-red-500 w-6 h-6   cursor-pointer"
                         onClick={() => handleLock(user._id, true)}
@@ -102,7 +103,9 @@ const UserList = () => {
                         onClick={() => handleLock(user._id, false)}
                       />
                     </div>
+                    
                   )}
+                  </div>
                 </tr>
               ))}
             </tbody>

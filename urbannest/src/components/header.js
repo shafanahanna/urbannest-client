@@ -70,6 +70,8 @@ function Header() {
               </li>
               <li>
                 <Link to="/profile" className="flex items-center no-underline">
+                {currentUser? currentUser.username:null}
+
                   {currentUser ? (
                     <img
                       className="h-7 w-7 rounded-full object-cover"
