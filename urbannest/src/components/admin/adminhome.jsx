@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaUsers, FaShoppingCart, FaLock } from "react-icons/fa";
+import { FaUsers, FaShoppingCart, } from "react-icons/fa";
 import { IoHome } from "react-icons/io5";
 import interceptor from "../../axios/admininterceptor";
 import SideBar from "./sidebar";
