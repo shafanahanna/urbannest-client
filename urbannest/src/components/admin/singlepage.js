@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import SideBar from "./sidebar";
 import interceptor from "../../axios/admininterceptor";
-import Footer from "../footer/footer";
 
 function SinglePage() {
   const [properties, setProperties] = useState(null);

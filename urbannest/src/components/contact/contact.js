@@ -38,10 +38,10 @@ function Contact() {
           values,
           { headers }
         );
-
+        console.log(response.data,"qwerty")
         toast("Message sent successfully!");
       } catch (error) {
-        console.error("Error:", error);
+        console.error("Error:", );
       }
     },
   });

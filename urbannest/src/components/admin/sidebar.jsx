@@ -10,7 +10,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const SideBar = () => {
-  const [login, setLogin] = useState(false);
+  const [ setLogin] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {

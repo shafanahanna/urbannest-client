@@ -34,7 +34,7 @@ function Adminedit() {
       try {
         setLoading(true);
         const response = await interceptor.put(`/api/admin/properties/${_id}`, values);
-      //  console.log(response);
+        console.log(response);
         toast.success("Updated successfully");
       } catch (error) {
         console.error("Error updating property:", error);
@@ -77,7 +77,7 @@ function Adminedit() {
     };
 
     fetchProperty();
-  }, [_id]);
+  }, [_id,formik]);
 
   return (
     <div className="flex  ">
